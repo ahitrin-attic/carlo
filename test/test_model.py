@@ -32,6 +32,3 @@ def test_same_enitities_should_throw_error():
     with pytest.raises(ModelException):
         Model(('first', {'int': lambda: 32}),
               ('first', {'it works': lambda: False})).build()
-
-def test_same_params_should_throw_error():
-    pass
