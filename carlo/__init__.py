@@ -1,3 +1,6 @@
+class ModelException(Exception):
+    pass
+
 class Model(object):
     def __init__(self, *entities):
         self.entities = entities
@@ -6,6 +9,9 @@ class Model(object):
         return self
 
     def build(self):
+        names = [e[0] for e in self.entities]
+        if len(names) != len(set(names)):
+            raise ModelException()
         return FrozenModel(self.entities)
 
 

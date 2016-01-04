@@ -2,7 +2,8 @@
 import os, sys
 sys.path.append(os.path.join(sys.path[0], '..'))
 
-from carlo import Model, generate
+from carlo import Model, ModelException
+import pytest
 
 def test_minimal_model():
     m = Model(('const', {'int': lambda: 42})).build()
@@ -28,7 +29,9 @@ def test_model_with_multiple_params():
 # error handling
 
 def test_same_enitities_should_throw_error():
-    pass
+    with pytest.raises(ModelException):
+        Model(('first', {'int': lambda: 32}),
+              ('first', {'it works': lambda: False})).build()
 
 def test_same_params_should_throw_error():
     pass
