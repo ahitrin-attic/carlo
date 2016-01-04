@@ -9,9 +9,11 @@ class Model(object):
         pass
 
     def create(self):
-        name, params = self.entities[0]
-        return [(name, {
-                    params.keys()[0]: params.values()[0]()})]
+        result = list()
+        for name, params in self.entities:
+            result.append((name, {
+                        params.keys()[0]: params.values()[0]()}))
+        return result
 
 def model(*args):
     return Model(*args)

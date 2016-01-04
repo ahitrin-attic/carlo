@@ -9,3 +9,10 @@ def test_minimal_model():
     assert [('const', {'int': 42})] == m.create()
     m = model(entity('const2', {'str': lambda: 'hello'}))
     assert [('const2', {'str': 'hello'})] == m.create()
+
+def test_model_with_multiple_entities():
+    m = model(
+            entity('first', {'name': lambda: 'elves'}),
+            entity('second', {'name': lambda: 'humans'}))
+    assert [('first', {'name': 'elves'}),
+            ('second', {'name': 'humans'})] == m.create()
