@@ -4,16 +4,16 @@
 from carlo import *
 
 tables = model(
-    entity('cats', {
-        'id': int_val(),
-        'name': string_val(),
-        'born': time_val(),
-        }),
-    entity('photos', {
-        'id': int_val(),
-        'cat_id': int_val(),
-        'taken': time_val(),
-        })
+    ('cats', {
+     'id': int_val(),
+     'name': string_val(),
+     'born': time_val(),
+    }),
+    ('photos', {
+     'id': int_val(),
+     'cat_id': int_val(),
+     'taken': time_val(),
+    })
 ).restricted_by(
     eq('cats.id', 'photos.cat_id'),
     ge('photos.taken', 'cats.born'),

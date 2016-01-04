@@ -25,9 +25,6 @@ class FrozenModel(object):
 def model(*args):
     return Model(*args)
 
-def entity(name, values):
-    return (name, values)
-
 def int_val():
     pass
 
