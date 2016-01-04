@@ -7,3 +7,5 @@ from carlo import model, entity, generate
 def test_minimal_model():
     m = model(entity('const', {'int': lambda: 42}))
     assert [('const', {'int': 42})] == m.create()
+    m = model(entity('const2', {'str': lambda: 'hello'}))
+    assert [('const2', {'str': 'hello'})] == m.create()

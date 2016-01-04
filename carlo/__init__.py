@@ -1,4 +1,7 @@
 class Model(object):
+    def __init__(self, *entities):
+        self.entities = entities
+
     def restricted_by(self, *args):
         return self
 
@@ -6,13 +9,15 @@ class Model(object):
         pass
 
     def create(self):
-        return [('const', {'int': 42})]
+        name, params = self.entities[0]
+        return [(name, {
+                    params.keys()[0]: params.values()[0]()})]
 
 def model(*args):
-    return Model()
+    return Model(*args)
 
 def entity(name, values):
-    pass
+    return (name, values)
 
 def int_val():
     pass
