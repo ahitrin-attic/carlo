@@ -16,3 +16,11 @@ def test_model_with_multiple_entities():
             entity('second', {'name': lambda: 'humans'})).build()
     assert [('first', {'name': 'elves'}),
             ('second', {'name': 'humans'})] == m.create()
+
+def test_model_with_multiple_params():
+    m = model(entity('human', {
+        'head': lambda: 1,
+        'hands': lambda: 2,
+        'name': lambda: 'Hurin',
+        })).build()
+    assert [('human', {'head': 1, 'hands': 2, 'name': 'Hurin'})] == m.create()

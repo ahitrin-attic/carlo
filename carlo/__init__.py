@@ -16,8 +16,10 @@ class FrozenModel(object):
     def create(self):
         result = list()
         for name, params in self.entities:
-            result.append((name, {
-                        params.keys()[0]: params.values()[0]()}))
+            resolved_params = dict()
+            for param_name, param_fn in params.iteritems():
+                resolved_params[param_name] = param_fn()
+            result.append((name, resolved_params))
         return result
 
 def model(*args):
