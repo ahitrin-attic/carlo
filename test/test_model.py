@@ -24,3 +24,11 @@ def test_model_with_multiple_params():
         'name': lambda: 'Hurin',
         })).build()
     assert [('human', {'head': 1, 'hands': 2, 'name': 'Hurin'})] == m.create()
+
+# error handling
+
+def test_same_enitities_should_throw_error():
+    pass
+
+def test_same_params_should_throw_error():
+    pass
