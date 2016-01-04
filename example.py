@@ -3,7 +3,7 @@
 
 from carlo import *
 
-tables = model(
+tables = Model(
     ('cats', {
      'id': int_val(),
      'name': string_val(),

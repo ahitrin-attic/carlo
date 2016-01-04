@@ -22,9 +22,6 @@ class FrozenModel(object):
             result.append((name, resolved_params))
         return result
 
-def model(*args):
-    return Model(*args)
-
 def int_val():
     pass
 
