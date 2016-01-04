@@ -5,6 +5,9 @@ class Model(object):
     def build(self):
         pass
 
+    def create(self):
+        return [('const', {'int': 42})]
+
 def model(*args):
     return Model()
 
