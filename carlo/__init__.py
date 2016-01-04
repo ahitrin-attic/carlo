@@ -6,7 +6,12 @@ class Model(object):
         return self
 
     def build(self):
-        pass
+        return FrozenModel(self.entities)
+
+
+class FrozenModel(object):
+    def __init__(self, entities):
+        self.entities = entities
 
     def create(self):
         result = list()
