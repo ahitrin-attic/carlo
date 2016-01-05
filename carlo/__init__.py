@@ -9,10 +9,13 @@ class Model(object):
         return self
 
     def build(self):
+        self._validate()
+        return FrozenModel(self.entities)
+
+    def _validate(self):
         names = [e[0] for e in self.entities]
         if len(names) != len(set(names)):
             raise ModelException()
-        return FrozenModel(self.entities)
 
 
 class FrozenModel(object):
