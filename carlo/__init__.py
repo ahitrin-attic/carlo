@@ -2,7 +2,7 @@ class ModelException(Exception):
     pass
 
 class Model(object):
-    def __init__(self, *entities):
+    def __init__(self, **entities):
         self.entities = entities
         self.restrictions = list()
 
@@ -28,11 +28,11 @@ class FrozenModel(object):
     def create(self):
         ready_values = dict()
         result = list()
-        for name, params in self.entities:
+        for name, params in self.entities.iteritems():
             for param_name, param_fn in params.iteritems():
                 full_name = '.'.join([name, param_name])
                 ready_values[full_name] = param_fn()
-        for name, params in self.entities:
+        for name, params in self.entities.iteritems():
             resolved_params = dict()
             for param_name in params.keys():
                 full_name = '.'.join([name, param_name])
