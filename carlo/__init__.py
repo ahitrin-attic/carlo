@@ -42,11 +42,11 @@ class FrozenModel(object):
             result.append((name, resolved_params))
         return result
 
-def int_val():
-    pass
+def int_val(fixed_value=None):
+    return lambda: fixed_value
 
-def string_val():
-    pass
+def string_val(fixed_value=None):
+    return lambda: fixed_value
 
 def time_val():
     pass
