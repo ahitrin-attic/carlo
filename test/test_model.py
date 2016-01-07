@@ -35,3 +35,12 @@ def test_restriction_must_override_parameter_definition():
     assert sorted([('leader', {'direction': 'north'}),
                    ('follower', {'direction': 'north'})]) == \
            sorted(m.create())
+
+# error handling
+
+def test_fields_with_different_type_could_not_be_eq():
+    m = Model(leader={'direction': string_val('north')},
+              follower={'direction': int_val(13)}
+        ).restricted_by(eq('leader.direction', 'follower.direction'))
+    with pytest.raises(ModelException):
+        m.build()
