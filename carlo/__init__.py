@@ -1,5 +1,9 @@
+import logpy
+
+
 class ModelException(Exception):
     pass
+
 
 class Model(object):
     def __init__(self, **entities):
@@ -15,8 +19,21 @@ class Model(object):
         return FrozenModel(self.entities, self.restrictions)
 
     def _validate(self):
-        names = [e[0] for e in self.entities]
-        if len(names) != len(set(names)):
+        variables = dict()
+        conditions = list()
+        for name, params in self.entities.iteritems():
+            for param_name, param in params.iteritems():
+                full_name = '.'.join([name, param_name])
+                v = logpy.var()
+                variables[full_name] = v
+                conditions.append(logpy.eq(v, param[0]))
+        for first, second in self.restrictions:
+            fv = variables[first]
+            sv = variables[second]
+            conditions.append(logpy.eq(fv, sv))
+        any_var = variables[variables.keys()[0]]
+        ok = logpy.run(1, any_var, *conditions)
+        if not ok:
             raise ModelException()
 
 
@@ -29,9 +46,9 @@ class FrozenModel(object):
         ready_values = dict()
         result = list()
         for name, params in self.entities.iteritems():
-            for param_name, param_fn in params.iteritems():
+            for param_name, param in params.iteritems():
                 full_name = '.'.join([name, param_name])
-                ready_values[full_name] = param_fn()
+                ready_values[full_name] = param[1]()
         for name, params in self.entities.iteritems():
             resolved_params = dict()
             for param_name in params.keys():
@@ -43,10 +60,10 @@ class FrozenModel(object):
         return result
 
 def int_val(fixed_value=None):
-    return lambda: fixed_value
+    return ('int', lambda: fixed_value)
 
 def string_val(fixed_value=None):
-    return lambda: fixed_value
+    return ('str', lambda: fixed_value)
 
 def time_val():
     pass
