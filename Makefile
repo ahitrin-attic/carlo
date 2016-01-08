@@ -1,15 +1,15 @@
-PRUNY: clean test2
+.PHONY: clean test2
 
-default=all
+all: test2
 
 clean:
 	rm -rf .env2 .cache
+	find . -name __pycache__ | xargs rm -rf
 
 .env2/bin/python2:
 	virtualenv .env2 --py=/usr/bin/python2
-	.env2/bin/pip install pytest
+	.env2/bin/pip install -r requirements.txt
+	.env2/bin/pip install -r requirements-dev.txt
 
 test2: .env2/bin/python2
 	.env2/bin/py.test
-
-all: test2
