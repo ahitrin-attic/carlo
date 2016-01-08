@@ -31,8 +31,7 @@ class Model(object):
             fv = variables[first]
             sv = variables[second]
             conditions.append(logpy.eq(fv, sv))
-        any_var = variables[variables.keys()[0]]
-        ok = logpy.run(1, any_var, *conditions)
+        ok = logpy.run(1, variables.values()[0], *conditions)
         if not ok:
             raise ModelException()
 
