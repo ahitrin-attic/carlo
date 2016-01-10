@@ -3,7 +3,7 @@
 all: test2
 
 clean:
-	rm -rf .env2 .cache
+	rm -rf .env2 .cache dist carlo/*.egg-info
 	find . -name __pycache__ | xargs rm -rf
 
 .env2/bin/python2:
