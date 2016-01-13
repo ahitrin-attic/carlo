@@ -66,4 +66,3 @@ Please note that **actual** state of the library is quite far from the declared 
 
  * any restrictions except ``eq``
  * cardinality restrictions
- * ``generate`` function
