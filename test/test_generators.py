@@ -25,9 +25,19 @@ class TestStringGenerator(object):
         assert val.startswith('so good ')
 
         val = value_of(string_val(length=5, prefix='hello'))
-        assert len(val) == 5
-        assert val.startswith('hello')
+        # len('hello') == 5
+        assert val == 'hello'
 
     def test_incorrect_length_and_prefix(self):
         with pytest.raises(AssertionError):
             value_of(string_val(length=1, prefix='oh wait!'))
+
+    def test_default_lengh_is_10(self):
+        '''Because why not'''
+        assert len(value_of(string_val())) == 10
+
+    def test_implement_custom_generator_function(self):
+        '''I do want easy Faker compatibility, but do NOT want have it in
+        dependency'''
+        val = value_of(string_val(fn=lambda: 'take this'))
+        assert val == 'take this'
