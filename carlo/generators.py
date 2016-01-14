@@ -11,6 +11,7 @@ def string_val(fixed_value=None, length=None, prefix=None):
         return ('str', lambda: fixed_value)
     if prefix:
         length -= len(prefix)
+        assert length >= 0
     else:
         prefix = ''
     return ('str', lambda: prefix + ''.join(random.choice(string.letters) for _ in range(length)))
