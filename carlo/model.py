@@ -1,5 +1,5 @@
 from .common import ModelException
-import logpy
+import sympy
 
 
 class Model(object):
@@ -18,19 +18,22 @@ class Model(object):
     def _validate(self):
         variables = dict()
         conditions = list()
+        used_variabled = list()
         for name, params in self.entities.iteritems():
             for param_name, param in params.iteritems():
                 full_name = '.'.join([name, param_name])
-                v = logpy.var()
-                variables[full_name] = v
-                conditions.append(logpy.eq(v, param[0]))
+                variables[full_name] = param[0]
         for first, second in self.restrictions:
-            fv = variables[first]
-            sv = variables[second]
-            conditions.append(logpy.eq(fv, sv))
-        ok = logpy.run(1, variables.values()[0], *conditions)
-        if not ok:
-            raise ModelException()
+            first_type = variables[first]
+            second_type = variables[second]
+            first_var, second_var = sympy.symbols(' '.join([first, second]))
+            conditions.extend([first_var - first_type,
+                second_var - second_type, first_var - second_var])
+            used_variabled.extend([first_var, second_var])
+        if conditions:
+            ok = sympy.solve(conditions, used_variabled)
+            if not ok:
+                raise ModelException()
 
 
 class FrozenModel(object):

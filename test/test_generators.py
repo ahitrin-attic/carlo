@@ -3,11 +3,12 @@ import os, sys
 sys.path.append(os.path.join(sys.path[0], '..'))
 
 from carlo import string_val
+from carlo.generators import STR_TYPE
 import pytest
 
 
 def value_of(str_gen):
-    assert str_gen[0] == 'str'
+    assert str_gen[0] == STR_TYPE
     return str_gen[1]()
 
 
