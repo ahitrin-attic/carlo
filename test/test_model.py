@@ -30,7 +30,7 @@ def test_model_with_multiple_params():
 
 def test_restriction_must_override_parameter_definition():
     m = Model(leader={'direction': string_val('north')},
-              follower={'direction': string_val('west')},
+              follower={'direction': string_val()},
         ).restricted_by(eq('leader.direction', 'follower.direction')).build()
     assert sorted([('leader', {'direction': 'north'}),
                    ('follower', {'direction': 'north'})]) == \
