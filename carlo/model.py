@@ -25,6 +25,8 @@ class Model(object):
                 param_type = param[0]
                 param_var = sympy.symbols(full_name + '.type')
                 variables[full_name] = {'type': (param_var, param_type)}
+                conditions.append(param_var - param_type)
+                used_variabled.append(param_var)
                 constraints = param[2]
                 for k, v in constraints.iteritems():
                     var = sympy.symbols('.'.join([full_name, k]))
@@ -32,14 +34,10 @@ class Model(object):
                     conditions.append(var - v)
                     used_variabled.append(var)
         for first, second in self.restrictions:
-            first_var, first_type = variables[first]['type']
-            second_var, second_type = variables[second]['type']
-            first_len, second_len = sympy.symbols(' '.join([first + '.length', second + '.length']))
-            conditions.extend([first_var - first_type,
-                               second_var - second_type,
-                               first_var - second_var,
-                               first_len - second_len])
-            used_variabled.extend([first_var, second_var])
+            for key in [k for k in variables[first] if k in variables[second]]:
+                first_var = variables[first][key][0]
+                second_var = variables[second][key][0]
+                conditions.append(first_var - second_var)
         if conditions:
             ok = sympy.solve(conditions, used_variabled)
             if not ok:
