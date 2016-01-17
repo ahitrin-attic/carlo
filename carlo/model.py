@@ -23,12 +23,20 @@ class Model(object):
             for param_name, param in params.iteritems():
                 full_name = '.'.join([name, param_name])
                 variables[full_name] = param[0]
+                value_length = param[2]
+                if value_length:
+                    len_var = sympy.symbols(full_name + '.length')
+                    conditions.append(len_var - value_length)
+                    used_variabled.append(len_var)
         for first, second in self.restrictions:
             first_type = variables[first]
             second_type = variables[second]
-            first_var, second_var = sympy.symbols(' '.join([first, second]))
+            first_var, second_var, first_len, second_len =\
+                    sympy.symbols(' '.join([first, second, first + '.length', second + '.length']))
             conditions.extend([first_var - first_type,
-                second_var - second_type, first_var - second_var])
+                               second_var - second_type,
+                               first_var - second_var,
+                               first_len - second_len])
             used_variabled.extend([first_var, second_var])
         if conditions:
             ok = sympy.solve(conditions, used_variabled)
