@@ -23,7 +23,7 @@ class Model(object):
             for param_name, param in params.iteritems():
                 full_name = '.'.join([name, param_name])
                 variables[full_name] = dict()
-                constraints = param[2]
+                constraints = param[1]
                 for k, v in constraints.iteritems():
                     var = sympy.symbols('.'.join([full_name, k]))
                     variables[full_name][k] = (var, v)
@@ -51,7 +51,7 @@ class FrozenModel(object):
         for name, params in self.entities.iteritems():
             for param_name, param in params.iteritems():
                 full_name = '.'.join([name, param_name])
-                ready_values[full_name] = param[1]()
+                ready_values[full_name] = param[0]()
         for name, params in self.entities.iteritems():
             resolved_params = dict()
             for param_name in params.keys():

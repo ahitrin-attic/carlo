@@ -8,8 +8,7 @@ import pytest
 
 
 def value_of(str_gen):
-    assert str_gen[0] == STR_TYPE
-    return str_gen[1]()
+    return str_gen[0]()
 
 
 class TestStringGenerator(object):
