@@ -22,17 +22,19 @@ class Model(object):
         for name, params in self.entities.iteritems():
             for param_name, param in params.iteritems():
                 full_name = '.'.join([name, param_name])
-                variables[full_name] = param[0]
+                param_type = param[0]
+                param_var = sympy.symbols(full_name + '.type')
+                variables[full_name] = {'type': (param_var, param_type)}
                 constraints = param[2]
                 for k, v in constraints.iteritems():
                     var = sympy.symbols('.'.join([full_name, k]))
+                    variables[full_name][k] = (var, v)
                     conditions.append(var - v)
                     used_variabled.append(var)
         for first, second in self.restrictions:
-            first_type = variables[first]
-            second_type = variables[second]
-            first_var, second_var, first_len, second_len =\
-                    sympy.symbols(' '.join([first, second, first + '.length', second + '.length']))
+            first_var, first_type = variables[first]['type']
+            second_var, second_type = variables[second]['type']
+            first_len, second_len = sympy.symbols(' '.join([first + '.length', second + '.length']))
             conditions.extend([first_var - first_type,
                                second_var - second_type,
                                first_var - second_var,
