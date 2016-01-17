@@ -16,6 +16,8 @@ def string_val(fixed_value=None, length=None, prefix=None, fn=None):
 
     constraints = {'type': STR_TYPE}
     if fixed_value:
+        if isinstance(fixed_value, list):
+            return (lambda: random.choice(fixed_value), constraints)
         return (lambda: fixed_value, constraints)
     if fn:
         return (fn, constraints)

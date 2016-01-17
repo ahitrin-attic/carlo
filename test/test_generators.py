@@ -15,6 +15,10 @@ class TestStringGenerator(object):
     def test_fixed_value(self):
         assert value_of(string_val('hello')) == 'hello'
 
+    def test_list_of_fixed_values(self):
+        chars = ['Harry', 'Ron', 'Hermiona']
+        assert value_of(string_val(chars)) in chars
+
     def test_given_length(self):
         assert len(value_of(string_val(length=10))) == 10
         assert len(value_of(string_val(length=42))) == 42
