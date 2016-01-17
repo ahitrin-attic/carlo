@@ -22,11 +22,7 @@ class Model(object):
         for name, params in self.entities.iteritems():
             for param_name, param in params.iteritems():
                 full_name = '.'.join([name, param_name])
-                param_type = param[0]
-                param_var = sympy.symbols(full_name + '.type')
-                variables[full_name] = {'type': (param_var, param_type)}
-                conditions.append(param_var - param_type)
-                used_variabled.append(param_var)
+                variables[full_name] = dict()
                 constraints = param[2]
                 for k, v in constraints.iteritems():
                     var = sympy.symbols('.'.join([full_name, k]))
