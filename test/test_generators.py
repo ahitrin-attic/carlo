@@ -31,7 +31,11 @@ class TestStringGenerator(object):
 
     def test_incorrect_length_and_prefix(self):
         with pytest.raises(AssertionError):
-            value_of(string_val(length=1, prefix='oh wait!'))
+            string_val(length=1, prefix='oh wait!')
+
+    def test_single_prefix_without_length_is_forbidden(self):
+        with pytest.raises(AssertionError):
+            string_val(prefix='alone')
 
     def test_default_lengh_is_10(self):
         '''Because why not'''

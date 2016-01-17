@@ -39,6 +39,8 @@ class Model(object):
                                first_len - second_len])
             used_variabled.extend([first_var, second_var])
         if conditions:
+            print conditions
+            print used_variabled
             ok = sympy.solve(conditions, used_variabled)
             if not ok:
                 raise ModelException()
