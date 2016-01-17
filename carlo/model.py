@@ -23,11 +23,11 @@ class Model(object):
             for param_name, param in params.iteritems():
                 full_name = '.'.join([name, param_name])
                 variables[full_name] = param[0]
-                value_length = param[2]
-                if value_length:
-                    len_var = sympy.symbols(full_name + '.length')
-                    conditions.append(len_var - value_length)
-                    used_variabled.append(len_var)
+                constraints = param[2]
+                for k, v in constraints.iteritems():
+                    var = sympy.symbols('.'.join([full_name, k]))
+                    conditions.append(var - v)
+                    used_variabled.append(var)
         for first, second in self.restrictions:
             first_type = variables[first]
             second_type = variables[second]

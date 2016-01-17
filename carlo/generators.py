@@ -7,17 +7,18 @@ STR_TYPE = 2
 
 
 def int_val(fixed_value=None):
-    return (INT_TYPE, lambda: fixed_value, None)
+    return (INT_TYPE, lambda: fixed_value, dict())
 
 
 def string_val(fixed_value=None, length=None, prefix=None, fn=None):
     def rnd_str(str_len):
         return lambda: prefix + ''.join(random.choice(string.letters) for _ in range(str_len))
 
+    constraints = dict()
     if fixed_value:
-        return (STR_TYPE, lambda: fixed_value, None)
+        return (STR_TYPE, lambda: fixed_value, constraints)
     if fn:
-        return (STR_TYPE, fn, None)
+        return (STR_TYPE, fn, constraints)
     if prefix:
         assert length > 0
         length -= len(prefix)
@@ -25,8 +26,9 @@ def string_val(fixed_value=None, length=None, prefix=None, fn=None):
     else:
         prefix = ''
     if length is None:
-        return (STR_TYPE, rnd_str(10), None)
-    return (STR_TYPE, rnd_str(length), length)
+        return (STR_TYPE, rnd_str(10), constraints)
+    constraints['length'] = length
+    return (STR_TYPE, rnd_str(length), constraints)
 
 
 def time_val():
