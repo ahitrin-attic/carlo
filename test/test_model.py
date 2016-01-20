@@ -44,17 +44,13 @@ def test_two_strings_of_same_length_could_be_eq():
     assert row['a'] == row['b']
 
 # error handling
-
-def test_fields_with_different_type_could_not_be_eq():
-    m = Model(leader={'direction': string_val('north')},
-              follower={'direction': int_val(13)}
-        ).restricted_by(eq('leader.direction', 'follower.direction'))
-    with pytest.raises(ModelException):
-        m.build()
-
-def test_two_strings_with_different_length_could_not_be_eq():
-    m = Model(x={'a': string_val(length=5),
-                 'b': string_val(length=4)}
-        ).restricted_by(eq('x.a', 'x.b'))
+@pytest.mark.parametrize('model,restrictions', [
+    ({'leader': {'direction': string_val('north')}, 'follower': {'direction': int_val(13)}},
+     [eq('leader.direction', 'follower.direction')]),
+    ({'x': {'a': string_val(length=5), 'b': string_val(length=4)}},
+     [eq('x.a', 'x.b')]),
+])
+def test_failure_on_bad_combinations(model, restrictions):
+    m = Model(**model).restricted_by(*restrictions)
     with pytest.raises(ModelException):
         m.build()
