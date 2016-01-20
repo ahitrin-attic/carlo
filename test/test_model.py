@@ -49,6 +49,8 @@ def test_two_strings_of_same_length_could_be_eq():
      [eq('leader.direction', 'follower.direction')]),
     ({'x': {'a': string_val(length=5), 'b': string_val(length=4)}},
      [eq('x.a', 'x.b')]),
+    ({'u': {'o': string_val('one'), 't': string_val('two')}},
+     [eq('u.o', 'u.t')]),
 ])
 def test_failure_on_bad_combinations(model, restrictions):
     m = Model(**model).restricted_by(*restrictions)

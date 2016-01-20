@@ -17,7 +17,9 @@ def string_val(fixed_value=None, length=None, prefix=None, fn=None):
     constraints = {'type': STR_TYPE}
     if fixed_value:
         if isinstance(fixed_value, list):
+            constraints['hash'] = hash(tuple(fixed_value))
             return (lambda: random.choice(fixed_value), constraints)
+        constraints['hash'] = hash(fixed_value)
         return (lambda: fixed_value, constraints)
     if fn:
         return (fn, constraints)
