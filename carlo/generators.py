@@ -22,6 +22,7 @@ def string_val(fixed_value=None, length=None, prefix=None, fn=None):
         constraints['hash'] = hash(fixed_value)
         return (lambda: fixed_value, constraints)
     if fn:
+        constraints['unique'] = random.randint(0, 99999999999)
         return (fn, constraints)
     if prefix:
         assert length > 0
